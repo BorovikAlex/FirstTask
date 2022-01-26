@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FirstTask.Data;
 using FirstTask.Models;
+using Microsoft.Extensions.Logging;
 
 namespace FirstTask.Controllers
 {
     public class ProgrammersController : Controller
     {
         private readonly DBContext _context;
+        private readonly ILogger<ProgrammersController> _logger;
 
-        public ProgrammersController(DBContext context)
+        public ProgrammersController(DBContext context, ILogger<ProgrammersController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Programmers
@@ -33,7 +36,6 @@ namespace FirstTask.Controllers
             {
                 return NotFound();
             }
-
             var programmer = await _context.Programmers
                 .Include(p => p.Position)
                 .FirstOrDefaultAsync(m => m.ProgrammerID == id);
@@ -57,7 +59,7 @@ namespace FirstTask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProgrammerID,Name,LastName,PositionID")] Programmer programmer)
+        public async Task<IActionResult> Create([Bind("ProgrammerID,Name,LastName,PositionID")] ProgrammerModel programmer)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +93,7 @@ namespace FirstTask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProgrammerID,Name,LastName,PositionID")] Programmer programmer)
+        public async Task<IActionResult> Edit(int id, [Bind("ProgrammerID,Name,LastName,PositionID")] ProgrammerModel programmer)
         {
             if (id != programmer.ProgrammerID)
             {

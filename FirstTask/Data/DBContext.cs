@@ -17,12 +17,13 @@ namespace FirstTask.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            new ProgrammerConfiguration().Configure(modelBuilder.Entity<Programmer>());
-            new PositionConfiguration().Configure(modelBuilder.Entity<Position>());
+            new ProgrammerConfiguration().Configure(modelBuilder.Entity<ProgrammerModel>());
+            new PositionConfiguration().Configure(modelBuilder.Entity<PositionModel>());
+            new LoggingConfiguration().Configure(modelBuilder.Entity<LoggingModel>());
         }
     
 
-        public DbSet<Programmer> Programmers { get; set; }
-        public DbSet<Position> Positions { get; set; }
+        public DbSet<ProgrammerModel> Programmers { get; set; }
+        public DbSet<PositionModel> Positions { get; set; }
     }
 }

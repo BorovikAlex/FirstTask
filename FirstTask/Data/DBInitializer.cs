@@ -18,25 +18,25 @@ namespace FirstTask.Data
                 return;   // DB has been seeded
             }
 
-            var positions = new Position[]
+            var positions = new PositionModel[]
             {
-            new Position{PositionName="Software Engineer"},
-            new Position{PositionName="Marketing Manager"},
-            new Position{PositionName="HR Manager"}
+            new PositionModel{PositionName="Software Engineer"},
+            new PositionModel{PositionName="Marketing Manager"},
+            new PositionModel{PositionName="HR Manager"}
             };
-            foreach (Position c in positions)
+            foreach (PositionModel c in positions)
             {
                 context.Positions.Add(c);
 
             }
 
             context.SaveChanges();
-            var programmers = new Programmer[]
+            var programmers = new ProgrammerModel[]
             {
-            new Programmer{Name="Alex",LastName="Baravikou",PositionID=1}
+            new ProgrammerModel{Name="Alex",LastName="Baravikou",PositionID=1}
 
             };
-            foreach (Programmer s in programmers)
+            foreach (ProgrammerModel s in programmers)
             {
                 context.Programmers.Add(s);
             }

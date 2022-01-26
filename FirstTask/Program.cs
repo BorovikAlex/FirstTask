@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace FirstTask
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("NLog.config").GetCurrentClassLogger();
+            var logger = NLogBuilder.ConfigureNLog("NLog.config").GetCurrentClassLogger();
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -41,6 +42,12 @@ namespace FirstTask
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+               .ConfigureLogging(logging =>
+               {
+                   logging.ClearProviders();
+                   logging.SetMinimumLevel(LogLevel.Trace);
+               })
+            .UseNLog();
     }
 }

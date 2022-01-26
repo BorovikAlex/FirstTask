@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FirstTask.Models
 {
-    public class Programmer
+    public class ProgrammerModel
     {
         public int ProgrammerID { get; set; }    
 
@@ -15,6 +15,6 @@ namespace FirstTask.Models
   
         public int PositionID { get; set; }
 
-        public Position Position { get; set; }
+        public PositionModel Position { get; set; }
     }
 }

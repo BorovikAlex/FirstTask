@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -12,10 +13,12 @@ namespace FirstTask.Middlewares
     public class TimeTrackingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<TimeTrackingMiddleware> _logger;
 
-        public TimeTrackingMiddleware(RequestDelegate next)
+        public TimeTrackingMiddleware(RequestDelegate next, ILogger<TimeTrackingMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -31,10 +34,7 @@ namespace FirstTask.Middlewares
 
                 string responseTime = DateTime.UtcNow.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
-                Debug.WriteLine($"Request time: {requestTime} {System.Environment.NewLine}" +
-                $"Response time: {responseTime} {System.Environment.NewLine}" +
-                $"Time between request and response: {watch.ElapsedMilliseconds.ToString()+ "ms"} {System.Environment.NewLine} " +
-                $"");
+                _logger.LogInformation("Time between request and response: {watch.ElapsedMilliseconds.ToString()} ms", watch.ElapsedMilliseconds.ToString());
 
                 return Task.CompletedTask; 
             });

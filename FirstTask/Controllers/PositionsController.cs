@@ -54,7 +54,7 @@ namespace FirstTask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PositionID,PositionName")] Position position)
+        public async Task<IActionResult> Create([Bind("PositionID,PositionName")] PositionModel position)
         {
 
             if (ModelState.IsValid && !PositionNameExists(position.PositionName))
@@ -89,7 +89,7 @@ namespace FirstTask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PositionID,PositionName")] Position position)
+        public async Task<IActionResult> Edit(int id, [Bind("PositionID,PositionName")] PositionModel position)
         {
             if (id != position.PositionID)
             {

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FirstTask.Data.ModelConfigurations
 {
-    public class ProgrammerConfiguration : IEntityTypeConfiguration<Programmer>
+    public class ProgrammerConfiguration : IEntityTypeConfiguration<ProgrammerModel>
     {
-        public void Configure(EntityTypeBuilder<Programmer> builder)
+        public void Configure(EntityTypeBuilder<ProgrammerModel> builder)
         {
             builder.ToTable("Programmer")
                 .HasKey(k => k.ProgrammerID);

@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace FirstTask.Models
 {
-    public class Position
+    public class PositionModel
     {
         public int PositionID { get; set; }
 
         public string PositionName { get; set; }
 
-        public ICollection<Programmer> Programmers { get; set; }
+        public ICollection<ProgrammerModel> Programmers { get; set; }
     }
 }
