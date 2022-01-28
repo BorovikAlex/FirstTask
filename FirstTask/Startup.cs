@@ -1,4 +1,4 @@
-using FirstTask.Data;
+using DataAccess.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FirstTask.Middlewares;
+using AutoMapper;
+using Logic.Mappings;
+using Logic.Services;
+using Logic.IServices;
+using DataAccess.Repositories;
+using DataAccess.IRepositories;
 
 namespace FirstTask
 {
@@ -28,6 +34,20 @@ namespace FirstTask
         {
             services.AddDbContext<DBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new PositionProfile());
+                mc.AddProfile(new ProgrammerProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddScoped<IPositionService, PositionService>();
+            services.AddScoped<IPositionRepository, PositionRepository>();
+            services.AddScoped<IProgrammerService, ProgrammerService>();
+            services.AddScoped<IProgrammerRepository, ProgrammerRepository>();
 
             services.AddControllersWithViews();
         }

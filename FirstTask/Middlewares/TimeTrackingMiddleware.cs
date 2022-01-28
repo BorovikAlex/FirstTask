@@ -28,19 +28,21 @@ namespace FirstTask.Middlewares
 
             string requestTime = DateTime.UtcNow.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
-            httpContext.Response.OnStarting(() => {
-       
-                watch.Stop();
+            httpContext.Response.OnStarting(() =>
+            {
 
-                string responseTime = DateTime.UtcNow.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
-                _logger.LogInformation("Time between request and response: {watch.ElapsedMilliseconds.ToString()} ms" + "\r\n" + "Request time: {requestTime} ms"
-                    + "\r\n" + "Response time: {responseTime} ms", watch.ElapsedMilliseconds.ToString(), requestTime, responseTime);
 
-                return Task.CompletedTask; 
+                return Task.CompletedTask;
             });
-             
-             await this._next(httpContext);
+
+            await this._next(httpContext);
+            watch.Stop();
+
+            string responseTime = DateTime.UtcNow.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture);
+
+            _logger.LogInformation("Time between request and response: {watch.ElapsedMilliseconds.ToString()} ms" + "\r\n" + "Request time: {requestTime} ms"
+                + "\r\n" + "Response time: {responseTime} ms", watch.ElapsedMilliseconds.ToString(), requestTime, responseTime);
         }
     }
 

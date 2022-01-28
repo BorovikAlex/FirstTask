@@ -1,4 +1,4 @@
-using FirstTask.Data;
+using DataAccess.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,8 +45,7 @@ namespace FirstTask
                 })
                .ConfigureLogging(logging =>
                {
-                   logging.ClearProviders();
-                   logging.SetMinimumLevel(LogLevel.Trace);
+                   logging.ClearProviders();                  
                })
             .UseNLog();
     }

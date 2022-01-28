@@ -5,40 +5,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using FirstTask.Data;
-using FirstTask.Models;
+using DataAccess.Data;
+using DataAccess.Models;
 using Microsoft.Extensions.Logging;
+using Logic.IServices;
+using Logic.DTOModels;
+using System.Collections;
 
 namespace FirstTask.Controllers
 {
     public class ProgrammersController : Controller
     {
-        private readonly DBContext _context;
-        private readonly ILogger<ProgrammersController> _logger;
-
-        public ProgrammersController(DBContext context, ILogger<ProgrammersController> logger)
+        private readonly IProgrammerService _service;
+        private readonly IPositionService _servicePosition;
+        public ProgrammersController(IProgrammerService programmerService, IPositionService positionService)
         {
-            _context = context;
-            _logger = logger;
+            _service = programmerService;
+            _servicePosition = positionService;
         }
 
-        // GET: Programmers
+        // GET: Positions
         public async Task<IActionResult> Index()
         {
-            var dBContext = _context.Programmers.Include(p => p.Position);
-            return View(await dBContext.ToListAsync());
+            var programmers = await _service.GetProgrammers();
+            return View(programmers);
         }
 
-        // GET: Programmers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var programmer = await _context.Programmers
-                .Include(p => p.Position)
-                .FirstOrDefaultAsync(m => m.ProgrammerID == id);
+
+            var programmer = await _service.GetProgrammerDetails(id);
+
             if (programmer == null)
             {
                 return NotFound();
@@ -47,94 +48,71 @@ namespace FirstTask.Controllers
             return View(programmer);
         }
 
-        // GET: Programmers/Create
         public IActionResult Create()
         {
-            ViewData["PositionID"] = new SelectList(_context.Positions, "PositionID", "PositionName");
+            var positionsList = _servicePosition.GetPositionsList();
+            SelectList positions = new SelectList(positionsList, "PositionID", "PositionName");
+            ViewBag.Positions = positions;
             return View();
         }
 
-        // POST: Programmers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProgrammerID,Name,LastName,PositionID")] ProgrammerModel programmer)
+        public async Task<IActionResult> Create(ProgrammerDTO programmer)
         {
+
             if (ModelState.IsValid)
             {
-                _context.Add(programmer);
-                await _context.SaveChangesAsync();
+
+                var newPosition = await _service.CreateProgrammer(programmer);
+            
                 return RedirectToAction(nameof(Index));
+
             }
-            ViewData["PositionID"] = new SelectList(_context.Positions, "PositionID", "PositionName", programmer.PositionID);
             return View(programmer);
         }
 
-        // GET: Programmers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var programmer = await _context.Programmers.FindAsync(id);
+            var programmer = await _service.FindById(id);
+
+            var positionsList = _servicePosition.GetPositionsList();
+            SelectList positions = new SelectList(positionsList, "PositionID", "PositionName");
+            ViewBag.Positions = positions;
             if (programmer == null)
             {
                 return NotFound();
             }
-            ViewData["PositionID"] = new SelectList(_context.Positions, "PositionID", "PositionName", programmer.PositionID);
             return View(programmer);
         }
 
-        // POST: Programmers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProgrammerID,Name,LastName,PositionID")] ProgrammerModel programmer)
+        public async Task<IActionResult> Edit(ProgrammerDTO programmer)
         {
-            if (id != programmer.ProgrammerID)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(programmer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProgrammerExists(programmer.ProgrammerID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
+                await _service.EditProgrammer(programmer);
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PositionID"] = new SelectList(_context.Positions, "PositionID", "PositionName", programmer.PositionID);
             return View(programmer);
         }
 
-        // GET: Programmers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var programmer = await _context.Programmers
-                .Include(p => p.Position)
-                .FirstOrDefaultAsync(m => m.ProgrammerID == id);
+            var programmer = await _service.FindById(id);
             if (programmer == null)
             {
                 return NotFound();
@@ -143,20 +121,12 @@ namespace FirstTask.Controllers
             return View(programmer);
         }
 
-        // POST: Programmers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var programmer = await _context.Programmers.FindAsync(id);
-            _context.Programmers.Remove(programmer);
-            await _context.SaveChangesAsync();
+            var programmer = await _service.DeleteProgrammer(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProgrammerExists(int id)
-        {
-            return _context.Programmers.Any(e => e.ProgrammerID == id);
         }
     }
 }

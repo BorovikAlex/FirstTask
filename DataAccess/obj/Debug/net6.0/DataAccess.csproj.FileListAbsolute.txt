@@ -1,0 +1,12 @@
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\obj\Debug\net6.0\DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\obj\Debug\net6.0\DataAccess.AssemblyInfoInputs.cache
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\obj\Debug\net6.0\DataAccess.AssemblyInfo.cs
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\obj\Debug\net6.0\DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\bin\Debug\net6.0\DataAccess.deps.json
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\bin\Debug\net6.0\DataAccess.dll
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\bin\Debug\net6.0\ref\DataAccess.dll
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\bin\Debug\net6.0\DataAccess.pdb
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\obj\Debug\net6.0\DataAccess.dll
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\obj\Debug\net6.0\ref\DataAccess.dll
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\obj\Debug\net6.0\DataAccess.pdb
+C:\Users\Aliaksandr.Baravikou\source\repos\FirstTask\DataAccess\obj\Debug\net6.0\DataAccess.csproj.AssemblyReference.cache
