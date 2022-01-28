@@ -1,4 +1,4 @@
-﻿@model FirstTask.Models.ProgrammerModel
+﻿@model Logic.DTOModels.ProgrammerDTO
 
 @{
     ViewData["Title"] = "Create";
@@ -8,33 +8,37 @@
 
 <h4>Programmer</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-4">
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                @Html.DisplayNameFor(model => model.Name) <br />
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new{ @class ="form-control"} })
             </div>
+
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                @Html.DisplayNameFor(model => model.LastName) <br />
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new{ @class ="form-control"} })
             </div>
+
             <div class="form-group">
-                <label asp-for="PositionID" class="control-label"></label>
-                <select asp-for="PositionID" class ="form-control" asp-items="ViewBag.PositionID"></select>
+                @Html.DisplayNameFor(model => model.Position) <br />
+                @Html.DropDownListFor(model => model.PositionID, ViewBag.Positions as SelectList, new { @class = "form-control" })
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary button-size" />
                 <a class="btn btn-dark button-size" asp-action="Index">Back to List</a>
             </div>
-        </form>
+        </div>
     </div>
-</div>
-
+}
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }
