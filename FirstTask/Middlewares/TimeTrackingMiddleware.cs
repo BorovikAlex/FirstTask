@@ -41,8 +41,10 @@ namespace FirstTask.Middlewares
 
             string responseTime = DateTime.UtcNow.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
-            _logger.LogInformation("Time between request and response: {watch.ElapsedMilliseconds.ToString()} ms" + "\r\n" + "Request time: {requestTime} ms"
-                + "\r\n" + "Response time: {responseTime} ms", watch.ElapsedMilliseconds.ToString(), requestTime, responseTime);
+            _logger.LogInformation("Time between request and response: {watch.ElapsedMilliseconds.ToString()} ms" + "\r\n" + "Request time: {requestTime}"
+                + "\r\n" + "Response time: {responseTime}", watch.ElapsedMilliseconds.ToString(), requestTime, responseTime);
+            Debug.WriteLine($"Time between request and response: {watch.ElapsedMilliseconds.ToString()} ms" + "\r\n" + $"Request time: {requestTime}"
+                + "\r\n" + $"Response time: {responseTime}");
         }
     }
 
